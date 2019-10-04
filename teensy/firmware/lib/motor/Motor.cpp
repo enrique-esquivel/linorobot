@@ -1,10 +1,11 @@
 #include "Motor.h"
 
-Controller::Controller(driver motor_driver, int pwm_pin, int motor_pinA, int motor_pinB):
+Controller::Controller(driver motor_driver, int pwm_pin, int motor_pinA, int motor_pinB, bool invert):
     motor_driver_(motor_driver),
     pwm_pin_(pwm_pin),
     motor_pinA_(motor_pinA),
-    motor_pinB_(motor_pinB)
+    motor_pinB_(motor_pinB),
+    invert_(invert)
 {
     switch (motor_driver)
     {
@@ -43,6 +44,9 @@ void Controller::spin(int pwm)
     switch (motor_driver_)
     {
         case L298:
+            if (invert_) {
+                pwm = pwm * -1;
+            }
             if(pwm > 0)
             {
                 digitalWrite(motor_pinA_, HIGH);
