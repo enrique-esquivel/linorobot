@@ -184,14 +184,14 @@ void moveBase()
 
         sprintf (buffer, "Linear X : %ld  , linear Y : %ld  , angular z: %ld", g_req_linear_vel_x, g_req_linear_vel_y, g_req_angular_vel_z);
         nh.loginfo(buffer);
-
+/*
         sprintf (buffer, "Required RPM motor1 : %ld  , motor2 : %ld", req_rpm.motor1, req_rpm.motor2);
         nh.loginfo(buffer);
 
         sprintf (buffer, "Current RPM motor1 : %ld  , motor2 : %ld", current_rpm1, current_rpm2);
         nh.loginfo(buffer);
 
-        prev_debug_time = millis();
+        prev_debug_time = millis();*/
     }
 
     //the required rpm is capped at -/+ MAX_RPM to prevent the PID from having too much error
