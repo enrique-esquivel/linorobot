@@ -19,18 +19,18 @@
 // #define USE_MPU9150_IMU
 // #define USE_MPU9250_IMU
 
-#define DEBUG 1
+#define DEBUG 0
 
 #define K_P 0.18 // P constant
 #define K_I 0.0 // I constant
-#define K_D 0.1 // D constant
+#define K_D 0.12 // D constant
 
 //define your robot' specs here
 #define MAX_RPM 185               // motor's maximum RPM
-#define COUNTS_PER_REV 368        // wheel encoder's no of ticks per rev
+#define COUNTS_PER_REV 353.403    // wheel encoder's no of ticks per rev
 #define WHEEL_DIAMETER 0.07       // wheel's diameter in meters
 #define PWM_BITS 8                // PWM Resolution of the microcontroller
-#define LR_WHEELS_DISTANCE 0.10   // distance between left and right wheels
+#define LR_WHEELS_DISTANCE 0.11   // distance between left and right wheels
 #define FR_WHEELS_DISTANCE 0.13   // distance between front and rear wheels. Ignore this if you're on 2WD/ACKERMANN
 #define MAX_STEERING_ANGLE 0.415  // max steering angle. This only applies to Ackermann steering
 

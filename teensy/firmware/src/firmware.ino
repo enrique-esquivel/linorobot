@@ -166,6 +166,7 @@ void commandCallback(const geometry_msgs::Twist& cmd_msg)
 
 void moveBase()
 {
+    static unsigned long prev_debug_time = 0; 
     //get the required rpm for each motor based on required velocities, and base used
     Kinematics::rpm req_rpm = kinematics.getRPM(g_req_linear_vel_x, g_req_linear_vel_y, g_req_angular_vel_z);
 
@@ -174,6 +175,18 @@ void moveBase()
     int current_rpm2 = motor2_encoder.getRPM();
     int current_rpm3 = motor3_encoder.getRPM();
     int current_rpm4 = motor4_encoder.getRPM();
+
+    if ((millis() - prev_debug_time) >= 1000) {
+        char buffer[50];
+
+        sprintf (buffer, "Required RPM motor1 : %ld  , motor2 : %ld", req_rpm.motor1, req_rpm.motor2);
+        nh.loginfo(buffer);
+
+        sprintf (buffer, "Current RPM motor1 : %ld  , motor2 : %ld", current_rpm1, current_rpm2);
+        nh.loginfo(buffer);
+
+        prev_debug_time = millis();
+    }
 
     //the required rpm is capped at -/+ MAX_RPM to prevent the PID from having too much error
     //the PWM value sent to the motor driver is the calculated PID based on required RPM vs measured RPM
