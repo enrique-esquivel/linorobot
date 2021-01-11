@@ -179,6 +179,9 @@ void moveBase()
     if ((millis() - prev_debug_time) >= 1000) {
         char buffer[50];
 
+        sprintf (buffer, "RPM : %ld  , Diameter : %ld  , FR Dist: %ld , LR Dist: %ld", MAX_RPM, WHEEL_DIAMETER, FR_WHEELS_DISTANCE, LR_WHEELS_DISTANCE);
+        nh.loginfo(buffer);
+
         sprintf (buffer, "Linear X : %ld  , linear Y : %ld  , angular z: %ld", g_req_linear_vel_x, g_req_linear_vel_y, g_req_angular_vel_z);
         nh.loginfo(buffer);
 
