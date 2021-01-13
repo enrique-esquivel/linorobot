@@ -76,8 +76,8 @@ ROBOT ORIENTATION
   #define MOTOR_DRIVER L298
 
   #define MOTOR1_PWM 11
-  #define MOTOR1_IN_A 49
-  #define MOTOR1_IN_B 48
+  #define MOTOR1_IN_A 48
+  #define MOTOR1_IN_B 49
 
   #define MOTOR2_PWM 10
   #define MOTOR2_IN_A 47
