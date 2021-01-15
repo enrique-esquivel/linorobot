@@ -50,11 +50,13 @@ void Controller::spin(int pwm)
             if(pwm > 0)
             {
                 digitalWrite(motor_pinA_, HIGH);
+		delayMicroseconds(5);
                 digitalWrite(motor_pinB_, LOW);
             }
             else if(pwm < 0)
             {
                 digitalWrite(motor_pinA_, LOW);
+		delayMicroseconds(5);
                 digitalWrite(motor_pinB_, HIGH);
             }
             analogWrite(pwm_pin_, abs(pwm));
