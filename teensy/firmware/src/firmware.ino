@@ -29,7 +29,7 @@
 #define IMU_PUBLISH_RATE 20 //hz
 #define COMMAND_RATE 20 //hz
 #define DEBUG_RATE 5
-#define TRACING_TIME 1000000
+#define TRACING_TIME 1000000 //1000000 to disable
 
 Encoder motor1_encoder(MOTOR1_ENCODER_A, MOTOR1_ENCODER_B, COUNTS_PER_REV);
 Encoder motor2_encoder(MOTOR2_ENCODER_A, MOTOR2_ENCODER_B, COUNTS_PER_REV); 
@@ -172,10 +172,17 @@ void moveBase()
     Kinematics::rpm req_rpm = kinematics.getRPM(g_req_linear_vel_x, g_req_linear_vel_y, g_req_angular_vel_z);
 
     //get the current speed of each motor
-    int current_rpm1 = motor1_encoder.getRPM();
+    int current_rpm1 = motor1_encoder.getRPM() * -1;
     int current_rpm2 = motor2_encoder.getRPM();
     int current_rpm3 = motor3_encoder.getRPM();
     int current_rpm4 = motor4_encoder.getRPM();
+
+    //the required rpm is capped at -/+ MAX_RPM to prevent the PID from having too much error
+    //the PWM value sent to the motor driver is the calculated PID based on required RPM vs measured RPM
+    motor1_controller.spin(motor1_pid.compute(req_rpm.motor1, current_rpm1));
+    motor2_controller.spin(motor2_pid.compute(req_rpm.motor2, current_rpm2));
+    motor3_controller.spin(motor3_pid.compute(req_rpm.motor3, current_rpm3)); 
+    motor4_controller.spin(motor4_pid.compute(req_rpm.motor4, current_rpm4));
 
     if ((millis() - prev_debug_time) >= TRACING_TIME) {
         char buffer[50];
@@ -192,15 +199,14 @@ void moveBase()
         sprintf (buffer, "Current encoder m1: %d , m2: %d", current_rpm1, current_rpm2);
         nh.loginfo(buffer);
 
+	int m1pid = motor1_pid.compute(req_rpm.motor1, current_rpm1);
+        int m2pid = motor1_pid.compute(req_rpm.motor2, current_rpm2);
+
+        sprintf (buffer, "PWD m1: %d , PWD m2: %d", m1pid, m2pid);
+        nh.loginfo(buffer);
+
         prev_debug_time = millis();
     }
-
-    //the required rpm is capped at -/+ MAX_RPM to prevent the PID from having too much error
-    //the PWM value sent to the motor driver is the calculated PID based on required RPM vs measured RPM
-    motor1_controller.spin(motor1_pid.compute(req_rpm.motor1, current_rpm1));
-    motor2_controller.spin(motor2_pid.compute(req_rpm.motor2, current_rpm2));
-    motor3_controller.spin(motor3_pid.compute(req_rpm.motor3, current_rpm3));  
-    motor4_controller.spin(motor4_pid.compute(req_rpm.motor4, current_rpm4));    
 
     Kinematics::velocities current_vel;
 
