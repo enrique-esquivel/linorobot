@@ -22,13 +22,13 @@
 #define DEBUG 0
 
 #define K_P 0.18 // P constant
-#define K_I 0.0 // I constant
-#define K_D 0.12 // D constant
+#define K_I 0.9  // I constant
+#define K_D 0.1  // D constant
 
 //define your robot' specs here
-#define MAX_RPM 185               // motor's maximum RPM
-#define COUNTS_PER_REV 353.403    // wheel encoder's no of ticks per rev
-#define WHEEL_DIAMETER 0.07       // wheel's diameter in meters
+#define MAX_RPM 175               // motor's maximum RPM
+#define COUNTS_PER_REV 4400       // wheel encoder's no of ticks per rev
+#define WHEEL_DIAMETER 0.485      // wheel's diameter in meters
 #define PWM_BITS 8                // PWM Resolution of the microcontroller
 #define LR_WHEELS_DISTANCE 0.11   // distance between left and right wheels
 #define FR_WHEELS_DISTANCE 0.13   // distance between front and rear wheels. Ignore this if you're on 2WD/ACKERMANN
@@ -52,7 +52,7 @@
 ROBOT ORIENTATION
          FRONT
     MOTOR1  MOTOR2  (2WD/ACKERMANN)
-    MOTOR3  MOTOR4  (4WD/MECANUM)  
+    MOTOR3  MOTOR4  (4WD/MECANUM)
          BACK
 */
 
@@ -60,13 +60,13 @@ ROBOT ORIENTATION
 
 /// ENCODER PINS
 #define MOTOR1_ENCODER_A 19
-#define MOTOR1_ENCODER_B 42 
+#define MOTOR1_ENCODER_B 42
 
 #define MOTOR2_ENCODER_A 18
-#define MOTOR2_ENCODER_B 43 
+#define MOTOR2_ENCODER_B 43
 
 #define MOTOR3_ENCODER_A NC
-#define MOTOR3_ENCODER_B NC 
+#define MOTOR3_ENCODER_B NC
 
 #define MOTOR4_ENCODER_A NC
 #define MOTOR4_ENCODER_B NC
@@ -93,10 +93,10 @@ ROBOT ORIENTATION
 
   #define PWM_MAX pow(2, PWM_BITS) - 1
   #define PWM_MIN -PWM_MAX
-#endif 
+#endif
 
 #ifdef USE_BTS7960_DRIVER
-  #define MOTOR_DRIVER BTS7960  
+  #define MOTOR_DRIVER BTS7960
 
   #define MOTOR1_PWM 1 //DON'T TOUCH THIS! This is just a placeholder
   #define MOTOR1_IN_A 21
