@@ -66,11 +66,11 @@ Kinematics::rpm Kinematics::calculateRPM(float linear_x, float linear_y, float a
 
     //calculate for the target motor RPM and direction
     //front-left motor
-    rpm.motor1 = x_rpm - y_rpm - tan_rpm;
+    rpm.motor1 = x_rpm - y_rpm + tan_rpm;
     rpm.motor1 = constrain(rpm.motor1, -max_rpm_, max_rpm_);
 
     //front-right motor
-    rpm.motor2 = x_rpm + y_rpm + tan_rpm;
+    rpm.motor2 = x_rpm + y_rpm - tan_rpm;
     rpm.motor2 = constrain(rpm.motor2, -max_rpm_, max_rpm_);
 
     //rear-left motor
@@ -140,7 +140,7 @@ Kinematics::velocities Kinematics::getVelocities(int rpm1, int rpm2, int rpm3, i
         vel.linear_y = 0;
 
     //convert average revolutions per minute to revolutions per second
-    average_rps_a = ((float)(-rpm1 + rpm2 - rpm3 + rpm4) / total_wheels_) / 60;
+    average_rps_a = ((float)(+rpm1 - rpm2 - rpm3 + rpm4) / total_wheels_) / 60;
     vel.angular_z =  (average_rps_a * wheel_circumference_) / ((wheels_x_distance_ / 2) + (wheels_y_distance_ / 2)); //  rad/s
 
     return vel;
