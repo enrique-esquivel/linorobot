@@ -184,30 +184,6 @@ void moveBase()
     motor3_controller.spin(motor3_pid.compute(req_rpm.motor3, current_rpm3)); 
     motor4_controller.spin(motor4_pid.compute(req_rpm.motor4, current_rpm4));
 
-    if ((millis() - prev_debug_time) >= TRACING_TIME) {
-        char buffer[50];
-
-        /*sprintf (buffer, "RPM: %d , D: %f , FR: %f , LR: %f ", MAX_RPM, WHEEL_DIAMETER, FR_WHEELS_DISTANCE, LR_WHEELS_DISTANCE);
-        nh.loginfo(buffer);
-
-        sprintf (buffer, "Linear X: %f , linear Y: %f , angular z: %f ", g_req_linear_vel_x, g_req_linear_vel_y, g_req_angular_vel_z);
-        nh.loginfo(buffer);*/
-
-        sprintf (buffer, "Required RPM m1: %d , m2: %d", req_rpm.motor1, req_rpm.motor2);
-        nh.loginfo(buffer);
-
-        sprintf (buffer, "Current encoder m1: %d , m2: %d", current_rpm1, current_rpm2);
-        nh.loginfo(buffer);
-
-	int m1pid = motor1_pid.compute(req_rpm.motor1, current_rpm1);
-        int m2pid = motor1_pid.compute(req_rpm.motor2, current_rpm2);
-
-        sprintf (buffer, "PWD m1: %d , PWD m2: %d", m1pid, m2pid);
-        nh.loginfo(buffer);
-
-        prev_debug_time = millis();
-    }
-
     Kinematics::velocities current_vel;
 
     if(kinematics.base_platform == Kinematics::ACKERMANN || kinematics.base_platform == Kinematics::ACKERMANN1)
@@ -226,6 +202,33 @@ void moveBase()
     raw_vel_msg.linear_x = current_vel.linear_x;
     raw_vel_msg.linear_y = current_vel.linear_y;
     raw_vel_msg.angular_z = current_vel.angular_z;
+
+    if ((millis() - prev_debug_time) >= TRACING_TIME) {
+        char buffer[50];
+
+        /*sprintf (buffer, "RPM: %d , D: %f , FR: %f , LR: %f ", MAX_RPM, WHEEL_DIAMETER, FR_WHEELS_DISTANCE, LR_WHEELS_DISTANCE);
+        nh.loginfo(buffer);
+
+        sprintf (buffer, "Linear X: %f , linear Y: %f , angular z: %f ", g_req_linear_vel_x, g_req_linear_vel_y, g_req_angular_vel_z);
+        nh.loginfo(buffer);
+
+        sprintf (buffer, "Required RPM m1: %d , m2: %d", req_rpm.motor1, req_rpm.motor2);
+        nh.loginfo(buffer);*/
+
+        sprintf (buffer, "Current encoder m1: %d , m2: %d", current_rpm1, current_rpm2);
+        nh.loginfo(buffer);
+
+	int m1pid = motor1_pid.compute(req_rpm.motor1, current_rpm1);
+        int m2pid = motor1_pid.compute(req_rpm.motor2, current_rpm2);
+
+        sprintf (buffer, "PWD m1: %d , PWD m2: %d", m1pid, m2pid);
+        nh.loginfo(buffer);
+
+	sprintf (buffer, "lin_X: %f , lin_Y: %f , ang_Z: %f", current_vel.linear_x, current_vel.linear_y, current_vel.angular_z);
+        nh.loginfo(buffer);
+
+        prev_debug_time = millis();
+    }
 
     //publish raw_vel_msg
     raw_vel_pub.publish(&raw_vel_msg);
